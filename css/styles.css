@@ -241,6 +241,94 @@ section {
 }
 
 @media (max-width: 768px) {
+    main {
+        padding: 1rem;
+        overflow-x: hidden;
+    }
+
+    .tech-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+    }
+
+    .tech-card {
+        padding: 1rem;
+        width: 100%;
+    }
+
+    .ideas-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 1rem;
+    }
+
+    .idea-card img {
+        height: 120px;
+    }
+
+    .idea-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .idea-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .idea-header .tech-level {
+        border-left: none;
+        padding-left: 0;
+        font-size: 0.9rem;
+    }
+
+    .idea-content {
+        padding: 1rem;
+    }
+
+    .idea-content img {
+        max-height: 300px;
+    }
+
+    .recommended-ideas {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+
+    .recommended-idea img {
+        height: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .tech-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ideas-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+
+    .idea-card img {
+        height: 100px;
+    }
+
+    .recommended-ideas {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    }
+
+    .recommended-idea img {
+        height: 70px;
+    }
+
+    .title-section h2 {
+        font-size: 1.3rem;
+    }
+
+    .tech-description {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
     .nav-links {
         display: none;
     }
