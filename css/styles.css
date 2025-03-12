@@ -244,6 +244,7 @@ section {
     main {
         padding: 1rem;
         overflow-x: hidden;
+        flex-direction: column;
     }
 
     .tech-grid {
@@ -295,6 +296,13 @@ section {
 
     .recommended-idea img {
         height: 80px;
+    }
+
+    #about {
+        order: 1;
+    }
+    #tech {
+        order: 2;
     }
 }
 
