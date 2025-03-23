@@ -253,8 +253,9 @@ section {
     }
 
     .tech-card {
-        padding: 1rem;
-        width: 100%;
+        padding: 0.5rem;
+        height: auto;
+        min-height: 100px;
     }
 
     .ideas-grid {

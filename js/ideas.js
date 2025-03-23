@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         7: "Reaction",
         8: "Non-Piller Narratives",
         9: "Piller Narratives",
-        10: "Advanced Theory"
+        10: "Independence"
     };
 
     const ideasGrid = document.querySelector('.ideas-grid');
