@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add back button
     const backButton = document.createElement('a');
     backButton.href = 'index.html';
-    backButton.textContent = '← Back to Tech Tree';
+    backButton.textContent = '← Go Back Home';
     backButton.style.display = 'block';
     backButton.style.marginBottom = '1rem';
     backButton.style.color = 'var(--text-color)';
