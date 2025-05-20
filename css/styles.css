@@ -34,6 +34,85 @@ main {
     justify-content: center;
 }
 
+/* Test Style - Remove after verification */
+body {
+    background-color: #f0f8ff !important; /* Light blue background */
+}
+
+/* Back Button */
+.back-button-container {
+    max-width: 1200px;
+    margin: 0 auto 2rem;
+    padding: 0 1rem;
+}
+
+.back-button {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.back-button:hover {
+    background-color: #5a7a1a;
+    text-decoration: none;
+}
+
+/* Example Card */
+#pipelines {
+    min-height: 200px; /* Ensure section has height */
+    padding: 20px; /* Add some padding */
+    background-color: #f0f0f0; /* Light gray background */
+}
+
+.pipeline-card {
+    background: white !important;
+    border: 2px solid var(--gradient-color);
+    padding: 2rem;
+    border-radius: 8px;
+    max-width: 600px;
+    margin: 0 auto 1rem;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pipeline-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.pipeline-card {
+    background: #ffffff !important; /* Force solid white background */
+    border-radius: 12px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    max-width: 600px;
+    margin: 2rem auto;
+    text-align: center;
+    border: 2px solid #ff0000 !important; /* Add red border for visibility */
+    position: relative; /* Ensure it's positioned */
+    z-index: 10; /* Ensure it's above other elements */
+}
+
+.pipeline-card h3 {
+    margin: 0;
+    padding: 0.5rem;
+    color: var(--text-color);
+    text-align: center;
+}
+
+.example-card p {
+    color: var(--text-color);
+    line-height: 1.5;
+}
+
 section {
     padding: 0;
 }
@@ -163,61 +242,6 @@ section {
     padding: 0.5rem;
     color: var(--text-color);
     text-align: center;
-}
-
-#idea-details {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 1rem;
-}
-
-.back-button {
-    display: inline-block;
-    margin-bottom: 2rem;
-    color: var(--text-color);
-    text-decoration: none;
-}
-
-.idea-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.idea-header h1 {
-    margin: 0;
-    color: var(--text-color);
-    font-size: 2rem;
-    flex: 1;
-}
-
-.idea-header .tech-level {
-    color: var(--text-color);
-    font-size: 1rem;
-    white-space: nowrap;
-    opacity: 0.9;
-    padding-left: 1rem;
-    border-left: 2px solid var(--gradient-color);
-}
-
-.idea-content {
-    background: white;
-    border: 2px solid var(--gradient-color);
-    padding: 2rem;
-}
-
-.idea-content img {
-    width: 100%;
-    max-height: 400px;
-    object-fit: cover;
-    margin-bottom: 1.5rem;
-}
-
-.idea-content .description {
-    color: var(--text-color);
-    line-height: 1.6;
     margin-bottom: 2rem;
 }
 
@@ -389,5 +413,77 @@ section {
     
     .hero h1 {
         font-size: 2rem;
+    }
+}
+
+/* Pipeline Details Page */
+#pipeline-details {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.pipeline-details-container {
+    background: white;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#pipeline-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.pipeline-image {
+    max-width: 100%;
+    max-height: 400px;
+    border-radius: 8px;
+    margin: 0 auto 1.5rem;
+    display: block;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#pipeline-title {
+    color: var(--primary-color);
+    margin: 1.5rem 0;
+    font-size: 2.2rem;
+    text-align: center;
+}
+
+.ideas-list {
+    list-style: none;
+    padding: 0;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.idea-item {
+    background: white;
+    margin: 1rem 0;
+    padding: 1.25rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--gradient-color);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.idea-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-left-color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+    .pipeline-details-container {
+        padding: 1.5rem;
+    }
+    
+    .pipeline-image {
+        max-height: 250px;
+    }
+    
+    #pipeline-title {
+        font-size: 1.8rem;
     }
 }

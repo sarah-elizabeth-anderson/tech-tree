@@ -3,9 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const techLevel = urlParams.get('tech');
     const ideaName = decodeURIComponent(urlParams.get('idea'));
 
-    // Update back button to return to correct tech level
+    // Update back button to return to the previous page or tech level
+    const fromPage = urlParams.get('from') || `ideas.html?tech=${techLevel}`;
     const backButton = document.querySelector('.back-button');
-    backButton.href = `ideas.html?tech=${techLevel}`;
+    backButton.href = fromPage;
 
     // Find the selected idea
     const ideas = ideasData[techLevel] || [];
