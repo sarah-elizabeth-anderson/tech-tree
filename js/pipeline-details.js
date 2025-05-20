@@ -47,8 +47,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (pipeline.ideas && pipeline.ideas.length > 0) {
         pipeline.ideas.forEach(idea => {
             const li = document.createElement('li');
-            li.textContent = idea;
             li.className = 'idea-item';
+            
+            // Create a link to the idea details page
+            const ideaLink = document.createElement('a');
+            ideaLink.href = `idea-details.html?idea=${encodeURIComponent(idea)}`;
+            ideaLink.textContent = idea;
+            
+            // Add the link to the list item
+            li.appendChild(ideaLink);
             ideasList.appendChild(li);
         });
     } else {
