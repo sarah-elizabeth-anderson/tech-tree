@@ -43,8 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
         ideas.forEach(idea => {
             const ideaCard = document.createElement('a');
             ideaCard.className = 'idea-card';
-            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-            ideaCard.href = `idea-details.html?tech=${techLevel}&idea=${encodeURIComponent(idea.name)}&from=${encodeURIComponent(currentPage)}`;
+            const currentPage = `ideas.html?tech=${techLevel}`;
+            ideaCard.href = `idea-details.html?idea=${encodeURIComponent(idea.name)}&from=${encodeURIComponent(currentPage)}`;
             
             ideaCard.innerHTML = `
                 <img src="${idea.image}" alt="${idea.name}" onerror="this.src='images/placeholder.jpg'">
