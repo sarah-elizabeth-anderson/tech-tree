@@ -324,7 +324,7 @@ section {
     .tech-card {
         padding: 0.5rem;
         height: auto;
-        min-height: 100px;
+        min-height: 10px;
     }
 
     .ideas-grid {
