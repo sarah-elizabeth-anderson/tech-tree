@@ -38,63 +38,72 @@ document.addEventListener('DOMContentLoaded', () => {
     if (idea) {
         const ideaContent = document.querySelector('.idea-content');
         
-        // Create recommendations HTML
-        const adjacentIdeasHtml = idea.recommendedAdjacent && idea.recommendedAdjacent.length ? `
-            <div class="recommendations">
-                <h2>Recommended Adjacent Ideas</h2>
-                <div class="recommended-ideas">
-                    ${idea.recommendedAdjacent.map(name => {
-                        // Find the idea in any tech level
-                        for (const [level, ideas] of Object.entries(ideasData)) {
-                            const adjacentIdea = ideas.find(i => i.name === name);
-                            if (adjacentIdea) {
-                                return `
-                                    <a href="idea-details.html?idea=${encodeURIComponent(name)}" class="recommended-idea">
-                                        <img src="${adjacentIdea.image}" alt="${name}" onerror="this.src='images/placeholder.jpg'">
-                                        <span>${name}</span>
-                                    </a>
-                                `;
-                            }
-                        }
-                        return '';
-                    }).join('')}
-                </div>
-            </div>
-        ` : '';
-
-        const deeperIdeasHtml = idea.recommendedDeeper && idea.recommendedDeeper.length ? `
-            <div class="recommendations">
-                <h2>Recommended Deeper Ideas</h2>
-                <div class="recommended-ideas">
-                    ${idea.recommendedDeeper.map(name => {
-                        // Find the idea in any tech level
-                        for (const [level, ideas] of Object.entries(ideasData)) {
-                            const deeperIdea = ideas.find(i => i.name === name);
-                            if (deeperIdea) {
-                                return `
-                                    <a href="idea-details.html?idea=${encodeURIComponent(name)}" class="recommended-idea">
-                                        <img src="${deeperIdea.image}" alt="${name}" onerror="this.src='images/placeholder.jpg'">
-                                        <span>${name}</span>
-                                    </a>
-                                `;
-                            }
-                        }
-                        return '';
-                    }).join('')}
-                </div>
-            </div>
-        ` : '';
-
+        // Populate main content
         ideaContent.innerHTML = `
-            <img src="${idea.image}" alt="${idea.name}" onerror="this.src='images/placeholder.jpg'">
+            <div class="idea-image-container">
+                <img src="${idea.image}" alt="${idea.name}" class="idea-image" onerror="this.src='images/placeholder.jpg'">
+            </div>
             <div class="idea-header">
                 <h1>${idea.name}</h1>
                 <div class="tech-level">Tech Level: ${foundTechLevel || 'N/A'}</div>
             </div>
-            <p class="description">${idea.description}</p>
-            ${adjacentIdeasHtml}
-            ${deeperIdeasHtml}
+            <div class="idea-description">
+                <p>${idea.description}</p>
+            </div>
         `;
+
+        // Create recommendations HTML
+        const recommendationsContainer = document.querySelector('.recommendations-container');
+        let recommendationsHtml = '';
+        
+        if ((idea.recommendedAdjacent && idea.recommendedAdjacent.length) || 
+            (idea.recommendedDeeper && idea.recommendedDeeper.length)) {
+            recommendationsHtml = `
+                <div class="recommendations">
+                    ${idea.recommendedAdjacent && idea.recommendedAdjacent.length ? `
+                        <h2>Recommended Adjacent Ideas</h2>
+                        <div class="recommended-ideas">
+                            ${idea.recommendedAdjacent.map(name => {
+                                // Find the idea in any tech level
+                                for (const [level, ideas] of Object.entries(ideasData)) {
+                                    const adjacentIdea = ideas.find(i => i.name === name);
+                                    if (adjacentIdea) {
+                                        return `
+                                            <a href="idea-details.html?idea=${encodeURIComponent(name)}&tech=${level}" class="recommended-idea">
+                                                <img src="${adjacentIdea.image}" alt="${name}" onerror="this.src='images/placeholder.jpg'">
+                                                <span>${name}</span>
+                                            </a>
+                                        `;
+                                    }
+                                }
+                                return '';
+                            }).join('')}
+                        </div>
+                    ` : ''}
+
+                    ${idea.recommendedDeeper && idea.recommendedDeeper.length ? `
+                        <h2>Recommended Deeper Ideas</h2>
+                        <div class="recommended-ideas">
+                            ${idea.recommendedDeeper.map(name => {
+                                // Find the idea in any tech level
+                                for (const [level, ideas] of Object.entries(ideasData)) {
+                                    const deeperIdea = ideas.find(i => i.name === name);
+                                    if (deeperIdea) {
+                                        return `
+                                            <a href="idea-details.html?idea=${encodeURIComponent(name)}&tech=${level}" class="recommended-idea">
+                                                <img src="${deeperIdea.image}" alt="${name}" onerror="this.src='images/placeholder.jpg'">
+                                                <span>${name}</span>
+                                            </a>
+                                        `;
+                                    }
+                                }
+                                return '';
+                            }).join('')}
+                        </div>
+                    ` : ''}
+                </div>`;
+            recommendationsContainer.innerHTML = recommendationsHtml;
+        }
         document.title = `Tech Tree - ${idea.name}`;
     } else {
         const ideaContent = document.querySelector('.idea-content');

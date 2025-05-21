@@ -7,18 +7,19 @@ function initPipelines() {
     
     // Get the container where we'll add the pipeline cards
     const pipelinesContainer = document.getElementById('pipelines');
+    const pipelinesGrid = document.querySelector('.pipelines-grid');
     
-    if (!pipelinesContainer) {
-        console.error('Error: Could not find element with ID "pipelines"');
-        // Try again in case the element hasn't loaded yet
+    if (!pipelinesContainer || !pipelinesGrid) {
+        console.error('Error: Could not find required elements');
+        // Try again in case elements haven't loaded yet
         setTimeout(initPipelines, 100);
         return;
     }
     
-    console.log('Found pipelines container');
+    console.log('Found containers');
     
-    // Clear any existing content
-    pipelinesContainer.innerHTML = '';
+    // Clear any existing content in the grid
+    pipelinesGrid.innerHTML = '';
     
     // Verify we have valid pipelines data
     if (!Array.isArray(pipelines) || pipelines.length === 0) {
@@ -39,28 +40,14 @@ function initPipelines() {
             const currentPage = window.location.pathname.split('/').pop() || 'index.html';
             cardLink.href = `pipeline-details.html?name=${encodeURIComponent(pipeline.name)}&from=${encodeURIComponent(currentPage)}`;
             cardLink.className = 'pipeline-card';
-            cardLink.style.display = 'block';
-            cardLink.style.textDecoration = 'none';
-            cardLink.style.color = 'inherit';
-            
-            // Set card styles
-            Object.assign(cardLink.style, {
-                backgroundColor: 'var(--background-color)',
-                border: '2px solid var(--gradient-color)',
-                padding: '2rem',
-                borderRadius: '8px',
-                maxWidth: '600px',
-                margin: '0 auto 1rem',
-                cursor: 'pointer',
-                transition: 'transform 0.2s ease, box-shadow 0.2s ease'
-            });
+            // Styles are handled by CSS
             
             // Create and add the image if it exists
             if (pipeline.image) {
                 const img = document.createElement('img');
                 img.src = pipeline.image;
                 img.alt = `${pipeline.name} image`;
-                img.style.cssText = 'width: 100%; max-height: 200px; object-fit: cover; border-radius: 4px; margin-bottom: 1rem;';
+                img.className = 'pipeline-image';
                 cardLink.appendChild(img);
             }
             
@@ -70,8 +57,8 @@ function initPipelines() {
             title.style.cssText = 'color: var(--primary-color); margin: 0.5rem 0;';
             cardLink.appendChild(title);
             
-            // Add card to container
-            pipelinesContainer.appendChild(cardLink);
+            // Add card to grid container
+            pipelinesGrid.appendChild(cardLink);
             
             console.log(`Card created for: ${pipeline.name}`);
         } catch (error) {
