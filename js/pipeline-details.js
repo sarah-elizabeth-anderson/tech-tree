@@ -7,12 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const pipelineName = urlParams.get('name');
     const fromPage = urlParams.get('from') || 'index.html';
     
-    // Add back button functionality
-    const backButton = document.createElement('a');
-    backButton.href = fromPage;
-    backButton.className = 'back-button';
-    backButton.innerHTML = '← Back';
-    document.querySelector('main').insertBefore(backButton, document.querySelector('main').firstChild);
+    // Back button is already defined in the HTML
     
     if (!pipelineName) {
         console.error('No pipeline name provided in URL');
