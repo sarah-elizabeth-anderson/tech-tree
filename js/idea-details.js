@@ -1,11 +1,15 @@
+// Import the pipelines data
+import pipelines from './pipeline-data.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const ideaName = decodeURIComponent(urlParams.get('idea'));
-    let techLevel = urlParams.get('tech');
+    const pipelineName = decodeURIComponent(urlParams.get('pipeline') || '');
     
-    // Find the idea across all tech levels
+    // Find the idea in the specified pipeline or search all pipelines
     let idea = null;
-    let foundTechLevel = techLevel;
+    let foundPipeline = null;
+    let foundTechLevel = null;
     
     if (!ideaName) {
         console.error('No idea name provided in URL');
@@ -13,27 +17,36 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // If tech level is provided, try that first
-    if (techLevel && ideasData[techLevel]) {
-        idea = ideasData[techLevel].find(i => i.name === ideaName);
-    }
+    // Find the pipeline and idea
+    const searchPipelines = pipelineName 
+        ? [pipelines.find(p => p.name === pipelineName)] 
+        : pipelines;
     
-    // If not found or no tech level provided, search all levels
-    if (!idea) {
-        for (const [level, ideas] of Object.entries(ideasData)) {
+    for (const pipeline of searchPipelines) {
+        if (!pipeline || !pipeline.ideas) continue;
+        
+        for (const [level, ideas] of Object.entries(pipeline.ideas)) {
             const foundIdea = ideas.find(i => i.name === ideaName);
             if (foundIdea) {
                 idea = foundIdea;
+                foundPipeline = pipeline;
                 foundTechLevel = level;
                 break;
             }
         }
+        
+        if (idea) break;
     }
 
-    // Update back button to return to the previous page or ideas list
-    const fromPage = urlParams.get('from') || `ideas.html?tech=${foundTechLevel}`;
+    // Update back button to return to the pipeline-details page
     const backButton = document.querySelector('.back-button');
-    backButton.href = fromPage;
+    if (foundPipeline) {
+        backButton.href = `pipeline-details.html?name=${encodeURIComponent(foundPipeline.name)}`;
+        backButton.textContent = `← Back to ${foundPipeline.name}`;
+    } else {
+        backButton.href = 'index.html';
+        backButton.textContent = '← Back to Home';
+    }
 
     if (idea) {
         const ideaContent = document.querySelector('.idea-content');
@@ -52,53 +65,45 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `;
 
-        // Create recommendations HTML
+        // Create recommendations HTML (simplified for now - can be enhanced later)
         const recommendationsContainer = document.querySelector('.recommendations-container');
         let recommendationsHtml = '';
         
-        if ((idea.recommendedAdjacent && idea.recommendedAdjacent.length) || 
-            (idea.recommendedDeeper && idea.recommendedDeeper.length)) {
+        // Get other ideas from the same tech level
+        const sameLevelIdeas = foundPipeline && foundPipeline.ideas[foundTechLevel] 
+            ? foundPipeline.ideas[foundTechLevel].filter(i => i.name !== ideaName)
+            : [];
+            
+        // Get ideas from next tech level if available
+        const nextLevel = parseInt(foundTechLevel) + 1;
+        const nextLevelIdeas = foundPipeline && foundPipeline.ideas[nextLevel]
+            ? foundPipeline.ideas[nextLevel]
+            : [];
+            
+        if (sameLevelIdeas.length > 0 || nextLevelIdeas.length > 0) {
             recommendationsHtml = `
                 <div class="recommendations">
-                    ${idea.recommendedAdjacent && idea.recommendedAdjacent.length ? `
-                        <h2>Recommended Adjacent Ideas</h2>
+                    ${sameLevelIdeas.length > 0 ? `
+                        <h2>Other Ideas at This Level</h2>
                         <div class="recommended-ideas">
-                            ${idea.recommendedAdjacent.map(name => {
-                                // Find the idea in any tech level
-                                for (const [level, ideas] of Object.entries(ideasData)) {
-                                    const adjacentIdea = ideas.find(i => i.name === name);
-                                    if (adjacentIdea) {
-                                        return `
-                                            <a href="idea-details.html?idea=${encodeURIComponent(name)}&tech=${level}" class="recommended-idea">
-                                                <img src="${adjacentIdea.image}" alt="${name}" onerror="this.src='images/placeholder.jpg'">
-                                                <span>${name}</span>
-                                            </a>
-                                        `;
-                                    }
-                                }
-                                return '';
-                            }).join('')}
+                            ${sameLevelIdeas.map(adjacentIdea => `
+                                <a href="idea-details.html?pipeline=${encodeURIComponent(foundPipeline.name)}&idea=${encodeURIComponent(adjacentIdea.name)}" class="recommended-idea">
+                                    <img src="${adjacentIdea.image}" alt="${adjacentIdea.name}" onerror="this.src='images/placeholder.jpg'">
+                                    <span>${adjacentIdea.name}</span>
+                                </a>
+                            `).join('')}
                         </div>
                     ` : ''}
 
-                    ${idea.recommendedDeeper && idea.recommendedDeeper.length ? `
-                        <h2>Recommended Deeper Ideas</h2>
+                    ${nextLevelIdeas.length > 0 ? `
+                        <h2>Next Level Ideas</h2>
                         <div class="recommended-ideas">
-                            ${idea.recommendedDeeper.map(name => {
-                                // Find the idea in any tech level
-                                for (const [level, ideas] of Object.entries(ideasData)) {
-                                    const deeperIdea = ideas.find(i => i.name === name);
-                                    if (deeperIdea) {
-                                        return `
-                                            <a href="idea-details.html?idea=${encodeURIComponent(name)}&tech=${level}" class="recommended-idea">
-                                                <img src="${deeperIdea.image}" alt="${name}" onerror="this.src='images/placeholder.jpg'">
-                                                <span>${name}</span>
-                                            </a>
-                                        `;
-                                    }
-                                }
-                                return '';
-                            }).join('')}
+                            ${nextLevelIdeas.map(nextIdea => `
+                                <a href="idea-details.html?pipeline=${encodeURIComponent(foundPipeline.name)}&idea=${encodeURIComponent(nextIdea.name)}" class="recommended-idea">
+                                    <img src="${nextIdea.image}" alt="${nextIdea.name}" onerror="this.src='images/placeholder.jpg'">
+                                    <span>${nextIdea.name}</span>
+                                </a>
+                            `).join('')}
                         </div>
                     ` : ''}
                 </div>`;
