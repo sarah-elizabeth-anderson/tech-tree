@@ -7,11 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const pipelineName = urlParams.get('name');
     const fromPage = urlParams.get('from') || 'index.html';
     
-    // Back button is already defined in the HTML
-    
     if (!pipelineName) {
         console.error('No pipeline name provided in URL');
-        window.location.href = 'pipelines.html';
+        window.location.href = 'index.html';
         return;
     }
     
@@ -20,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (!pipeline) {
         console.error('Pipeline not found:', pipelineName);
-        window.location.href = 'pipelines.html';
+        window.location.href = 'index.html';
         return;
     }
     
@@ -37,25 +35,67 @@ document.addEventListener('DOMContentLoaded', () => {
         pipelineImage.style.display = 'none';
     }
     
-    // Add the ideas list
-    const ideasList = document.getElementById('pipeline-ideas');
-    if (pipeline.ideas && pipeline.ideas.length > 0) {
-        pipeline.ideas.forEach(idea => {
-            const li = document.createElement('li');
-            li.className = 'idea-item';
+    // Get the container for the ideas
+    const pipelineContent = document.querySelector('.pipeline-content');
+    pipelineContent.innerHTML = ''; // Clear existing content
+    
+    // Create a section for each tech level
+    Object.entries(pipeline.ideas).forEach(([techLevel, ideas]) => {
+        if (!ideas || ideas.length === 0) return;
+        
+        // Create section for this tech level
+        const section = document.createElement('div');
+        section.className = 'tech-level-section';
+        
+        // Add tech level header
+        const header = document.createElement('h2');
+        header.textContent = `Tech Level ${techLevel}`;
+        section.appendChild(header);
+        
+        // Create grid for idea cards
+        const grid = document.createElement('div');
+        grid.className = 'ideas-grid';
+        
+        // Add each idea as a card
+        ideas.forEach(idea => {
+            const card = document.createElement('a');
+            card.className = 'idea-card';
+            // Include both pipeline name and idea name in the URL
+            card.href = `idea-details.html?pipeline=${encodeURIComponent(pipeline.name)}&idea=${encodeURIComponent(idea.name)}`;
             
-            // Create a link to the idea details page
-            const ideaLink = document.createElement('a');
-            ideaLink.href = `idea-details.html?idea=${encodeURIComponent(idea)}`;
-            ideaLink.textContent = idea;
+            // Add image if available
+            if (idea.image) {
+                const img = document.createElement('img');
+                img.src = idea.image;
+                img.alt = idea.name;
+                img.className = 'idea-image';
+                card.appendChild(img);
+            }
             
-            // Add the link to the list item
-            li.appendChild(ideaLink);
-            ideasList.appendChild(li);
+            // Add idea name
+            const name = document.createElement('h3');
+            name.textContent = idea.name;
+            card.appendChild(name);
+            
+            // Add description if available
+            if (idea.description) {
+                const desc = document.createElement('p');
+                desc.textContent = idea.description;
+                desc.className = 'idea-description';
+                card.appendChild(desc);
+            }
+            
+            grid.appendChild(card);
         });
-    } else {
+        
+        section.appendChild(grid);
+        pipelineContent.appendChild(section);
+    });
+    
+    // If no ideas found, show message
+    if (pipelineContent.children.length === 0) {
         const noIdeas = document.createElement('p');
         noIdeas.textContent = 'No ideas available for this pipeline.';
-        ideasList.appendChild(noIdeas);
+        pipelineContent.appendChild(noIdeas);
     }
 });
