@@ -1,28 +1,48 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Smooth scrolling for navigation links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
+// Import dependencies
+import pipelines from './data.js';
+import { initSmoothScrolling, initScrollAnimations, createElement } from './utils.js';
 
-    // Add scroll-based animations for sections
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
-        });
-    }, { threshold: 0.1 });
+/**
+ * Initialize the application
+ */
+function init() {
+    initPipelines();
+    initSmoothScrolling();
+    initScrollAnimations();
+}
 
-    document.querySelectorAll('section').forEach(section => {
-        observer.observe(section);
+/**
+ * Initialize pipeline cards in the grid
+ */
+function initPipelines() {
+    const pipelinesGrid = document.querySelector('.pipelines-grid');
+    
+    if (!pipelinesGrid) {
+        return;
+    }
+    
+    pipelinesGrid.innerHTML = ''; // Clear existing content
+    
+    pipelines.forEach(pipeline => {
+        const card = createElement('a', {
+            class: 'pipeline-card',
+            href: `pipeline.html?name=${encodeURIComponent(pipeline.name)}`
+        }, [
+            createElement('div', { class: 'pipeline-card-image' }, [
+                createElement('img', {
+                    src: pipeline.image,
+                    alt: pipeline.name,
+                    onerror: "this.src='images/placeholder.jpg'"
+                })
+            ]),
+            createElement('div', { class: 'pipeline-card-content' }, [
+                createElement('h3', {}, pipeline.name)
+            ])
+        ]);
+        
+        pipelinesGrid.appendChild(card);
     });
-});
+}
+
+// Initialize the application when the DOM is loaded
+document.addEventListener('DOMContentLoaded', init);

@@ -1,7 +1,10 @@
+console.log('pipeline-data.js loaded');
+
 const pipelines = [
     {
         name: "Libritarian",
         image: "images/dont-tread-on-me.jpg",
+        description: "Libritarianism is a political ideology that advocates for individual liberty, limited government, and free markets.",
         ideas: {
             1: [
                 {
@@ -32,6 +35,7 @@ const pipelines = [
     {
         name: "Manosphere",
         image: "images/andrew-tate.jpg",
+        description: "The Manosphere is a political ideology that advocates for individual liberty, limited government, and free markets.",
         ideas: {
             1: [
                 {
