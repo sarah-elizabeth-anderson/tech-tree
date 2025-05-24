@@ -4,10 +4,18 @@ import { getUrlParam, createElement, redirectTo } from './utils.js';
 
 // DOM Elements
 const elements = {
-    title: document.getElementById('pipeline-title'),
-    image: document.getElementById('pipeline-image'),
-    content: document.querySelector('.pipeline-content'),
-    description: document.getElementById('pipeline-description')
+    // Mobile elements
+    mobileTitle: document.getElementById('pipeline-title-mobile'),
+    mobileImage: document.getElementById('pipeline-image-mobile'),
+    mobileDescription: document.getElementById('pipeline-description-mobile'),
+    
+    // Desktop elements
+    desktopTitle: document.getElementById('pipeline-title-desktop'),
+    desktopImage: document.getElementById('pipeline-image-desktop'),
+    desktopDescription: document.getElementById('pipeline-description-desktop'),
+    
+    // Common elements
+    content: document.querySelector('.pipeline-content')
 };
 
 /**
@@ -33,20 +41,33 @@ function init() {
 }
 
 /**
- * Update the page title, description, and image
+ * Update the page title, description, and image for both mobile and desktop
  * @param {Object} pipeline - The pipeline data
  */
 function updatePageContent(pipeline) {
-    if (elements.title) {
-        elements.title.textContent = pipeline.name;
-        document.title = `Tech Tree - ${pipeline.name}`;
+    // Update document title
+    document.title = `Tech Tree - ${pipeline.name}`;
+    
+    // Update mobile header
+    if (elements.mobileTitle) elements.mobileTitle.textContent = pipeline.name;
+    if (elements.mobileDescription) {
+        elements.mobileDescription.textContent = pipeline.description || '';
+        elements.mobileDescription.style.display = pipeline.description ? 'block' : 'none';
+    }
+    if (elements.mobileImage && pipeline.image) {
+        elements.mobileImage.src = pipeline.image;
+        elements.mobileImage.alt = pipeline.name;
     }
     
-    if (elements.description && pipeline.description) {
-        elements.description.textContent = pipeline.description;
-        elements.description.style.display = 'block';
-    } else if (elements.description) {
-        elements.description.style.display = 'none';
+    // Update desktop header
+    if (elements.desktopTitle) elements.desktopTitle.textContent = pipeline.name;
+    if (elements.desktopDescription) {
+        elements.desktopDescription.textContent = pipeline.description || '';
+        elements.desktopDescription.style.display = pipeline.description ? 'block' : 'none';
+    }
+    if (elements.desktopImage && pipeline.image) {
+        elements.desktopImage.src = pipeline.image;
+        elements.desktopImage.alt = pipeline.name;
     }
     
     if (elements.image) {
