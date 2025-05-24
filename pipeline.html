@@ -13,13 +13,27 @@
         </div>
         <section id="pipeline">
             <div class="pipeline-container">
-                <div id="pipeline-header">
-                    <img id="pipeline-image" src="" alt="Pipeline Image" class="pipeline-image">
-                    <h1 id="pipeline-title"></h1>
-                    <p id="pipeline-description" class="pipeline-description"></p>
+                <!-- Mobile/Tablet Header (visible only on small screens) -->
+                <div class="mobile-header">
+                    <div id="pipeline-header-mobile">
+                        <img id="pipeline-image-mobile" src="" alt="Pipeline Image" class="pipeline-image">
+                        <h1 id="pipeline-title-mobile"></h1>
+                        <p id="pipeline-description-mobile" class="pipeline-description"></p>
+                    </div>
                 </div>
-                <div class="pipeline-content">
-                    <!-- Tech level sections will be dynamically inserted here -->
+
+                <div class="pipeline-layout">
+                    <div class="pipeline-content">
+                        <!-- Tech level sections will be dynamically inserted here -->
+                    </div>
+                    <!-- Desktop Sidebar (visible only on large screens) -->
+                    <aside class="pipeline-sidebar">
+                        <div id="pipeline-header-desktop">
+                            <img id="pipeline-image-desktop" src="" alt="Pipeline Image" class="pipeline-image">
+                            <h1 id="pipeline-title-desktop"></h1>
+                            <p id="pipeline-description-desktop" class="pipeline-description"></p>
+                        </div>
+                    </aside>
                 </div>
                 <div class="recommendations-container">
                     <!-- Recommendations will be dynamically inserted here -->
